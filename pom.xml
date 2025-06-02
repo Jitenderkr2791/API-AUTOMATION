@@ -140,9 +140,9 @@
 								     <version>2.22.1</version>
 								     <configuration>
 								        <testFailureIgnore>true</testFailureIgnore>
-                                         <!--    <includes>
+                                             <includes>
                                           <include>**/RunCucumberTest.java</include>
-								        </includes>-->
+								        </includes>
 								     </configuration>
 								  </plugin>
 								  <plugin>
