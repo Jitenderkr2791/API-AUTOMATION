@@ -4,20 +4,20 @@ import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith (Cucumber.class)
-@CucumberOptions(features = "src/test/resources/feature/",
+@CucumberOptions(features = {"classpath:feature/Happy_Path_Flow.feature"},
 		glue="stepdefinition",
-		
 
-		//dryRun = false,
-		//monochrome=true,
+
+		dryRun = false,
+		monochrome=true,
 		plugin = {"pretty",
-			    "html:target/cucumber-reports.html",
-			    "json:target/cucumber.json", 
-			    "junit:target/cucumber-xml.xml",
-			    }
-		)
+				"html:target/cucumber-reports.html",
+				"json:target/cucumber.json",
+				"junit:target/cucumber-xml.xml",
+		}
+)
 
-public class RunCucumberTest 
+public class RunCucumberTest
 {
 
 }
