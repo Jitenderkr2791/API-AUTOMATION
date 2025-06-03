@@ -13,14 +13,9 @@ import io.restassured.response.Response;
 public class Get_Enrollments
 {
 	private Response res ;
-	private ExtentTest test;
-	private Map<String, String> headers;
-	
-	public Get_Enrollments()
-	{
-		 this.test = Extent_Report_Manager.getTest();
-		 this.headers = ConfigReader.getHeadersFromConfig("header");
-	}
+	private ExtentTest test=Extent_Report_Manager.getTest();
+	private Map<String, String> headers = BaseMethods.getDefaultHeaders();
+
 	
 	@When("I send a GET request of Get Enrollments API")
 	public void i_send_a_get_request_of_get_enrollments_api() 
@@ -40,7 +35,6 @@ public class Get_Enrollments
 	        res = given()
 	                .baseUri(Endpoints.baseURL)
 	                .headers(headers)
-	                 // .contentType("application/json; charset=utf-8")
 	                .header("Authorization", "Bearer " + parentToken)
 	                .when()
 	                .get(Endpoints.GET_ENROLLMENT)

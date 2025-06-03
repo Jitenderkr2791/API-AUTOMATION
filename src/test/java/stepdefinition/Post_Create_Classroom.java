@@ -13,18 +13,14 @@ import static io.restassured.RestAssured.*;
 
 public class Post_Create_Classroom
 {
-    String Baseurl;
     String ProviderToken;
     private Response res;
-    private ExtentTest test;
-    Faker faker = new Faker();
-    private Map<String, String> headers;
-    String todayDate = LocalDate.now().toString();
+    private ExtentTest test = Extent_Report_Manager.getTest();
     Payload Pl = new Payload();
+    private Map<String, String> headers= BaseMethods.getDefaultHeaders();
 
     public Post_Create_Classroom()
     {
-        this.test = Extent_Report_Manager.getTest();
         this.ProviderToken = ConfigReader.getProperty("ProviderToken");
         if (this.ProviderToken == null || this.ProviderToken.trim().isEmpty()) 
         {
@@ -32,7 +28,6 @@ public class Post_Create_Classroom
             ConfigReader.waitAndReloadConfig(3000);
             this.ProviderToken = ConfigReader.getProperty("ProviderToken");
         }
-        this.headers = ConfigReader.getHeadersFromConfig("header");
         test.info("Decoded JWT: " + BaseMethods.decodeJWT(ProviderToken));
     }
 

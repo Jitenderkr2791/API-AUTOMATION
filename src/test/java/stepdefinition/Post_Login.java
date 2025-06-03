@@ -16,7 +16,7 @@ public class Post_Login
     private String password;
     private String endpoint;
     private ExtentTest test = Extent_Report_Manager.getTest();
-    private Map<String, String> headers = ConfigReader.getHeadersFromConfig("header");
+    private Map<String, String> headers = BaseMethods.getDefaultHeaders();
     private String contentType="application/json";
     public static Map<String, String> userTokens = new HashMap<>();
 

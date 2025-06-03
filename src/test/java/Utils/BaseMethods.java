@@ -53,6 +53,7 @@ public class BaseMethods
 		 login.the_provides_email_and_password("Provider", Endpoints.provider_email, Endpoints.provider_password);
 		 tokens.put("ProviderToken", login.the_sends_a_post_request_to_the_login_endpoint("Provider"));
 		 ConfigReader.writeMultipleProperties(tokens);
+		 ConfigReader.waitAndReloadConfig(3000);
 	}
 	
 	public static  void parentLogin()
@@ -60,12 +61,19 @@ public class BaseMethods
 		 login.the_provides_email_and_password("Parent", Endpoints.parent_email, Endpoints.parent_password);
 		 tokens.put("ParentToken", login.the_sends_a_post_request_to_the_login_endpoint("Parent"));
 		 ConfigReader.writeMultipleProperties(tokens);
+		 ConfigReader.waitAndReloadConfig(3000);
 	}
-	
-	
-	
-	
-	
-	
+
+	public static Map<String, String> getDefaultHeaders()
+	{
+		Map<String, String> headers = new HashMap<>();
+		headers.put("Accept", "*/*");
+		headers.put("Accept-Encoding", "gzip, deflate");
+		headers.put("Cache-Control", "no-cache");
+		headers.put("Connection", "keep-alive");
+		headers.put("Content-Type", "application/json");
+		headers.put("User-Agent", "PostmanRuntime/7.44.0");
+		return headers;
+	}
 
 }

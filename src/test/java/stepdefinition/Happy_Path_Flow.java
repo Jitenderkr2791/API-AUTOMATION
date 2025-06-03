@@ -42,7 +42,7 @@ public class Happy_Path_Flow
 	@When("the parent creates new children with valid information")
 	public void the_parent_creates_new_children_with_valid_information()
 	{
-		Post_Child_Information_Step1 PCIS = new Post_Child_Information_Step1();
+		Post_Child_Information PCIS = new Post_Child_Information();
 		Map<String, String> allChildIds = new HashMap<>();
 
 		int numberOfChildren = Integer.parseInt(ConfigReader.getProperty("number_of_children_to_create"));

@@ -14,7 +14,7 @@ import static io.restassured.RestAssured.*;
 public class enroll_Regular_Dropin
 {
     private String parentToken;
-    private Map<String, String> headers;
+    private Map<String, String> headers=BaseMethods.getDefaultHeaders();
     private Response response;
     private ExtentTest test = Extent_Report_Manager.getTest();
     Payload Pl = new Payload();
@@ -27,7 +27,6 @@ public class enroll_Regular_Dropin
             BaseMethods.parentLogin();  
             this.parentToken = ConfigReader.getProperty("ParentToken");
         }
-        headers = ConfigReader.getHeadersFromConfig("header");
     }
 
     @When("I send a POST request to enroll-Dropin child {string} API with valid body")

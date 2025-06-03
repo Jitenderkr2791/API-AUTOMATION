@@ -17,7 +17,7 @@ public class Get_children_List_API
 {
 	private Response res ;
 	private ExtentTest test = Extent_Report_Manager.getTest();
-	private Map<String, String> headers =ConfigReader.getHeadersFromConfig("header");
+	private Map<String, String> headers = BaseMethods.getDefaultHeaders();
 
 	@When("I send a GET request of children-with-enrollments API")
 	public void i_send_a_get_request_of_children_with_enrollments_api() 
@@ -34,7 +34,7 @@ public class Get_children_List_API
 	        test.info("Using Authorization token for parent.");
 	        
 	        // Sending GET request
-	        res = given()
+	       this.res = given()
 	                .baseUri(Endpoints.baseURL)
 	                .headers(headers)
 	                .contentType("application/json; charset=utf-8")
@@ -48,26 +48,6 @@ public class Get_children_List_API
 	        test.info("Content-Type: " + contentType);
 	    }
 
-		@Then("the child list response status code should be {int}") 
-		  public void the_child_list_status_code_should_be(Integer expectedStatusCode) 
-		  {
-			   test.info("Validating status code: expected " + expectedStatusCode);
-			   BaseMethods.validateStatusCode(res, expectedStatusCode, test);
-		   }
-	  
-		@Then("the response body should match the predefined JSON schema {string}")
-		public void the_response_body_should_match_the_predefined_json_schema(String schemaFileName)
-		{
-		  test.info("Validating response against schema: schema/" + schemaFileName); 
-		  String cleanedJson = APIUtils.getJsonBodyIfValid(res);   // common logic reuse
-
-	      // Rebuild response with cleaned body
-		  Response cleanedResponse = new ResponseBuilder().clone(res).setBody(cleanedJson).build();
-
-     	  // Schema validation
-		 cleanedResponse.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/" + schemaFileName));
-		}
-		    
 		  @Then("the response status message should be {string}") 
 		  public void the_response_status_message_should_be(String expectedStatusMessage) 
 		  { 		  
@@ -77,7 +57,18 @@ public class Get_children_List_API
 		      Assert.assertEquals("Status message mismatch", expectedStatusMessage, actualStatusLine);
 		  }
 
+			@Then("the response body should match the predefined JSON schema {string}")
+			public void the_response_body_should_match_the_predefined_json_schema(String schemaFileName)
+			{
+				test.info("Validating response against schema: schema/" + schemaFileName);
+				String cleanedJson = APIUtils.getJsonBodyIfValid(res);   // common logic reuse
 
-	 
+				// Rebuild response with cleaned body
+				Response cleanedResponse = new ResponseBuilder().clone(res).setBody(cleanedJson).build();
+
+				// Schema validation
+				cleanedResponse.then().assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("schema/" + schemaFileName));
+			}
+
 }
- 	
+

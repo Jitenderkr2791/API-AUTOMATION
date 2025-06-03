@@ -12,13 +12,13 @@ import static org.hamcrest.Matchers.notNullValue;
 import java.io.File;
 import java.util.*;
 
-public class Post_Child_Information_Step1 
+public class Post_Child_Information
 {
     public Response childres, Parentres, lastres;
     private String parentToken;
     private String requestBody;
-    private ExtentTest test;
-    private Map<String, String> headers;
+    private ExtentTest test = Extent_Report_Manager.getTest();
+    private Map<String, String> headers= BaseMethods.getDefaultHeaders();
     private String endpoint;
     private Map<String, Object> childInfo;
 
@@ -28,14 +28,6 @@ public class Post_Child_Information_Step1
     String ParentId;
     Payload Pl = new Payload();
 
-    // Constructor
-    	public Post_Child_Information_Step1() 
-    	{
-        this.test = Extent_Report_Manager.getTest();
-        this.headers = ConfigReader.getHeadersFromConfig("header");
-        test.info("Initialized Post_Child_Information_Step1 with baseURL: " + Endpoints.baseURL + ", endpoint: " + Endpoints.CHILD_REGISTER);
-    	}
- 
 	    @Given("I have a valid parent token")
 	    public String i_have_a_valid_parent_token()
 	    {
@@ -360,8 +352,7 @@ public class Post_Child_Information_Step1
 			 test.info("Received response: " + lastres.asString());
 			 APIUtils.logResponseToExtent(lastres, test);
 		}
-		
-		
+
 		@Then("the child registration status should be updated to COMPLETE")
 		public void the_child_registration_status_should_be_updated_to_complete() 
 		{
@@ -387,34 +378,7 @@ public class Post_Child_Information_Step1
 			test.info("Asserting response message. Expected: " + expectedMessage + ", Actual: " + actualMessage);
 	        Assert.assertEquals("Expected response message to be " + expectedMessage, expectedMessage, actualMessage);
 		}
-		
-		@Then("the returned parentId should be a positive number")
-		public void the_returned_parent_id_should_be_a_positive_number()
-		{
-			 int parentId = lastres.jsonPath().getInt("parentIds.parentIds[0]");
-			 test.info("Validating parentId is positive. Received: " + parentId);
-			 Assert.assertTrue("Expected childId to be a positive number, but got: " + parentId, parentId > 0);
-		}
-		
-		@Then("the success message should be {string}")
-		public void the_success_message_should_be(String expectedsuccess )
-		{
-			String actualSuccess = lastres.jsonPath().getString("success");
-	        test.info("Validating success flag. Expected: " + expectedsuccess + ", Actual: " + actualSuccess);
-		    Assert.assertEquals("Expected success to be true, but was false",expectedsuccess , actualSuccess);
-		}
-		
-	 @Then("the error field path should be {string}")
-      public void validateErrorFieldPath(String expectedFieldPath)
-		    {
-		        if (!"N/A".equalsIgnoreCase(expectedFieldPath))
-		        {
-		            String actualField = lastres.jsonPath().getString("errors[0].field");
-		            test.info("Validating error field path. Expected: " + expectedFieldPath + ", Actual: " + actualField);
-		            Assert.assertEquals(expectedFieldPath, actualField);
-		        }
-		    }
-	
+
 	    @Then("The response message should be for child {string}")
 	    public void then_The_Response_Message_Should_Be_For_Child(String expectedMessage)
 	    {	
@@ -422,40 +386,6 @@ public class Post_Child_Information_Step1
 	    	test.info("Validating response message. Expected: " + expectedMessage + ", Actual: " + actualMessage);
 	        Assert.assertEquals("Expected response message to be " + expectedMessage, expectedMessage, actualMessage);
 	    }
- 
-	   @When("I update child {string} with {string}")
-	    public void updateField(String field, String value)
-	    {
-	    	test.info("Updating field '" + field + "' with value '" + value + "'");
-	        childInfo.put(field, value);
-	
-	        JSONObject json = new JSONObject(childInfo);
-	        JSONObject root = new JSONObject();
-	        root.put("childInfo", json);
-	        requestBody = root.toString();
-	        test.info("Updated payload: " + requestBody);
-	    }
-   
-	    @Then("the response message should be {string} and {string}")
-	    public void verifyResponseMessage(String expectedMessage, String expectedFieldPath)
-	    {
-		    String actualMessage;
-			    if (lastres.getStatusCode() == 200)
-			    {
-			    	then_The_Response_Message_Should_Be_For_Child(expectedMessage);
-		
-			        // Additional validation for childId
-			    	the_returned_child_id_should_be_a_positive_number();
-			    }
-			    else
-			    {
-			        actualMessage = lastres.jsonPath().getString("errors[0].message");
-			        String  actualFieldPath=lastres.jsonPath().get("errors[0].field");
-			        test.info("Error received: " + actualMessage + " at field: " + actualFieldPath);
-			        Assert.assertEquals("Expected error message mismatch", expectedMessage, actualMessage);
-			        Assert.assertEquals("Expected error message mismatch", expectedFieldPath, actualFieldPath);
-			    }
-	      }
 	    
 	    @Then("the returned childId should be a positive number")
 	    public void the_returned_child_id_should_be_a_positive_number()
@@ -464,20 +394,6 @@ public class Post_Child_Information_Step1
 	    	 test.info("Validating childId is positive. Received childId: " + childId);
 	    	 Assert.assertTrue("Expected childId to be a positive number, but got: " + childId, childId > 0);
 	    }
-	    
-	    @When("I update parent {string} with {string}")
-		public void ParentupdateField(String field, String value)
-			    {
-				    parent.put(field, value);
-				    test.info("Updated field [" + field + "] with value: " + value);
- 
-				    Map<String, Object> payload = new HashMap<>();
-				    payload.put("parents", parents);
-				    payload.put("childId", childId);
- 
-				    JSONObject root = new JSONObject(payload);
-				    requestBody = root.toString();
-				    test.info("Updated request payload: " + requestBody);
-			    }
+
 }
  

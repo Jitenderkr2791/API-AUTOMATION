@@ -13,19 +13,12 @@ import static io.restassured.RestAssured.*;
 
 public class Put_Enrollment_Status
 {
-    String childId ;
     Response res;
     Map<String, String> requestBody;
-    private Map<String, String> headers;
+    private Map<String, String> headers = BaseMethods.getDefaultHeaders();
     String endpoint;
-    private ExtentTest test;
+    private ExtentTest test=Extent_Report_Manager.getTest();
     private String contentType="application/json";
-
-    public Put_Enrollment_Status()
-    {
-        this.headers = ConfigReader.getHeadersFromConfig("header");
-        this.test = Extent_Report_Manager.getTest();
-    }
 
     @When("I send a PUT request to endpoint with {string} and status {string}")
     public void i_send_a_put_request_to_endpoint_with_and_status(String childId, String status) 

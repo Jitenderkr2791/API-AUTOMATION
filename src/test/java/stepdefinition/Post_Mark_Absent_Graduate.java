@@ -12,16 +12,11 @@ public class Post_Mark_Absent_Graduate
 {
 
     private String providerToken;
-    private Map<String, String> headers;
+    private Map<String, String> headers = BaseMethods.getDefaultHeaders();
     private Response response;
     private Map<String, Object> requestBody;
-    private ExtentTest test;
+    private ExtentTest test = Extent_Report_Manager.getTest();;
     Payload Pl = new Payload();
-    public Post_Mark_Absent_Graduate() 
-    {
-        this.test = Extent_Report_Manager.getTest();
-        this.headers = ConfigReader.getHeadersFromConfig("header");
-    }
 
     @When("I send a POST request to providers\\/enrollments\\/mark-absent with {int}")
     public void i_send_a_post_request_to_providers_enrollments_mark_absent_with(Integer enrollmentid)
@@ -43,7 +38,6 @@ public class Post_Mark_Absent_Graduate
 	        System.out.println("API Response:\n" + response.asPrettyString());
 	    }
 
-    
 	    @Then("the response status code should be {int}")
 	    public void theResponseStatusCodeShouldBe(int expectedCode)
 		{

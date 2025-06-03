@@ -6,11 +6,15 @@ Background:
     When I send a POST request to child endpoint
     Then I should receive a 200 OK response
     Then the child registration response should store childId
+    Then The response message should be for child "Child information saved successfully."
+    Then the returned childId should be a positive number
  @runthis
   Scenario: Register a new parent linked to a child with valid data
     When I send a POST request to Parent endpoint
     Then I should receive a 200 OK response
+    Then The response message should be for Parent guardian "Parent information saved successfully."
     And the response should contain the parentId
+
  @runthis
   Scenario: Register emergency contact linked to the child
     When I send a POST request to Emergency Contact endpoint
@@ -47,19 +51,3 @@ Background:
     When I send a PUT request to Final Submission endpoint
     Then I should receive a 200 OK response
     And the child registration status should be updated to COMPLETE
- 
-
-   Scenario: Validate Child Registration with valid data
-    When I send a POST request to child endpoint
-    Then I should receive a 200 OK response
-   	Then The response message should be for child "Child information saved successfully."
-    Then the returned childId should be a positive number
-    Then the child registration response should store childId
-    
-
-   Scenario: Register a new parent linked to a child with valid data
-    When I send a POST request to Parent endpoint
-     Then I should receive a 200 OK response
-    Then The response message should be for Parent guardian "Parent information saved successfully."
-    Then the returned parentId should be a positive number
-    Then the success message should be "true"
