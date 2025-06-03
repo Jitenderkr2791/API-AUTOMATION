@@ -10,7 +10,7 @@ import io.cucumber.junit.CucumberOptions;
 	                           "classpath:feature/Get_children_List_API.feature",
 	                              "classpath:feature/Get_Enrollments.feature",
                                        "classpath:feature/Post_Child_Information.feature",
-                                               "classpath:feature/View_capacity_management.feature",
+                                               "classpath:feature/Get_capacity_management.feature",
 	                                               "classpath:feature/Put_Enrollment_Status.feature",
                                                          "classpath:feature/Post_Create_Classroom.feature",
 	                                                         "classpath:feature/Post_Mark_Absent_Graduate.feature",
@@ -34,7 +34,7 @@ public class RunCucumberTest
 //  	     "classpath:feature/Get_children_List_API.feature",
 //		     "classpath:feature/Get_Enrollments.feature",
 //          "classpath:feature/Post_Child_Information.feature",
-//           "classpath:feature/View_capacity_management.feature",
+//           "classpath:feature/Get_capacity_management.feature",
 //		    "classpath:feature/Put_Enrollment_Status.feature",
 //          "classpath:feature/Post_Create_Classroom.feature",
 //		   "classpath:feature/Post_Mark_Absent_Graduate.feature"
