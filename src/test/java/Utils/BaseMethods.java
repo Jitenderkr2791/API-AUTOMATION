@@ -5,6 +5,8 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.json.JSONObject;
 import org.junit.Assert;
 import com.aventstack.extentreports.ExtentTest;
 import io.restassured.response.Response;
@@ -14,6 +16,8 @@ public class BaseMethods
 {
 	static Map<String, String> tokens = new HashMap<>();
 	static Post_Login login = new Post_Login();
+	public static String parentToken;
+	public static String providerToken;
 	
     public static void validateStatusCode(Response res, int expectedCode, ExtentTest test)
     {
@@ -42,6 +46,7 @@ public class BaseMethods
 	        throw new IllegalArgumentException("birthdate field is missing or empty");
 	    }
 	 }
+	
 	public static String decodeJWT(String jwt) 
 	{
 	    String[] split = jwt.split("\\.");
@@ -75,5 +80,45 @@ public class BaseMethods
 		headers.put("User-Agent", "PostmanRuntime/7.44.0");
 		return headers;
 	}
+	
+	 public static String getParentToken() 
+	 {	parentToken = ConfigReader.getProperty("ParentToken");
+	    if (parentToken == null || parentToken.trim().isEmpty() || tokenExpired(parentToken)) 
+	        {
+	            BaseMethods.parentLogin();  // this should refresh and set new token
+	            parentToken = ConfigReader.getProperty("ParentToken");
+	        }
+	        return parentToken;
+	    }
+	 
+	 public static String getProviderToken() 
+	 {  providerToken = ConfigReader.getProperty("ProviderToken");
+	    if (providerToken == null || providerToken.trim().isEmpty() || tokenExpired(providerToken)) 
+	        {
+	            BaseMethods.providerLogin();  
+	            providerToken = ConfigReader.getProperty("ProviderToken");
+	        }
+	        return providerToken;
+	    }
+
+	 private static boolean tokenExpired(String token)
+	    {   try {
+	    	      
+	    	        String[] parts = token.split("\\.");				  // Split JWT into header, payload, and signature
+	    	        if (parts.length < 2) return true; 					 // Invalid token
+	    	        String payload = new String(Base64.getUrlDecoder().decode(parts[1]));		  // Decode the payload part (2nd part)
+	    	        JSONObject json = new JSONObject(payload);									 // Parse payload as JSON
+	    	       
+	    	        long exp = json.getLong("exp");												 // Read the expiry time (in seconds)
+	    	        
+	    	        long currentTime = System.currentTimeMillis() / 1000;						 // Get current time in seconds
+
+	    	        return currentTime > exp;											   // Return true if token is expired
+	    	    } 
+	    	  catch (Exception e) 
+	    	  {
+	    	        return true;							                             // If token is invalid or parsing fails, treat it as expired
+	    	    }
+	     }
 
 }

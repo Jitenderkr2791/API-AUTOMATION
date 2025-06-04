@@ -26,14 +26,7 @@ public class Put_Enrollment_Status
     	 requestBody = new HashMap<>();
     	 requestBody.put("enrollment_status", status);
     	
-    	 String ProviderToken = ConfigReader.getProperty("ProviderToken");
-         if (ProviderToken == null ||ProviderToken.trim().isEmpty()) 
-         {
-             BaseMethods.providerLogin();  
-             ConfigReader.waitAndReloadConfig(3000);
-             ProviderToken = ConfigReader.getProperty("ProviderToken");
-         }
-        
+    	String ProviderToken = BaseMethods.getProviderToken();
         APIUtils.logRequestHeaders(test, headers);
         APIUtils.logRequestBody(test, requestBody);
         

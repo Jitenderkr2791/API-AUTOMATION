@@ -18,17 +18,17 @@ Feature: Classroom Capacity and Enrollment Management
   And Approve the Enrolled  child.
   
 @runthis
-  Scenario: Mark an enrolled child as absent
+ Scenario: Mark an enrolled child as absent
     When the Provider login via the POST login endpoint
     When the provider marks  enrolled child as absent for today and tomorrow using the enrollment ID
     
-@runthis
-  Scenario: Enroll a drop-in child during an absence period
+@runthis    
+Scenario: Enroll a drop-in child during an absence period
     When the Parent login via the POST login endpoint
     And the parent attempts to drop-in  child on the same dates another child is absent
     
 @runthis
- Scenario: Approve Enrolled child
+Scenario: Approve Enrolled child
   When the Provider login via the POST login endpoint
   And Approve the Enrolled drop in  child
   
@@ -46,3 +46,9 @@ Feature: Classroom Capacity and Enrollment Management
  Scenario: Approve Enrolled child
   When the Provider login via the POST login endpoint
   And Approve the Enrolled  child after the Graduation of Another Child.
+
+
+@runthis
+Scenario: Enroll a new child for waitlisted
+    When the Parent login via the POST login endpoint
+    And the New parent enrolls the child checking for waitlisted.

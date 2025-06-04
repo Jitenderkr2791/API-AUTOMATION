@@ -8,10 +8,10 @@ import io.restassured.response.Response;
 import org.junit.Assert;
 import java.util.*;
 import static io.restassured.RestAssured.*;
+
 public class Post_Mark_Absent_Graduate
 {
-
-    private String providerToken;
+    private String providerToken = BaseMethods.getProviderToken();
     private Map<String, String> headers = BaseMethods.getDefaultHeaders();
     private Response response;
     private Map<String, Object> requestBody;
@@ -20,7 +20,7 @@ public class Post_Mark_Absent_Graduate
 
     @When("I send a POST request to providers\\/enrollments\\/mark-absent with {int}")
     public void i_send_a_post_request_to_providers_enrollments_mark_absent_with(Integer enrollmentid)
-	    {	this.providerToken = ConfigReader.getProperty("ProviderToken");
+	    {	
 			requestBody = Pl.MarkingAbsence(enrollmentid);
 			test.log(Status.INFO, "Sending POST request to: " + Endpoints.baseURL +" "+Endpoints.mark_absent);
 			test.log(Status.INFO, "Prepared request body: " + requestBody.toString());
@@ -66,7 +66,6 @@ public class Post_Mark_Absent_Graduate
 	    @When("I send a POST request to providers\\/enrollments\\/mark-graduation with {int}")
 	    public void i_send_a_post_request_to_providers_enrollments_mark_graduation_with(Integer enrollmentid)
 	    {
-	    	this.providerToken = ConfigReader.getProperty("ProviderToken");
 			requestBody = Pl.GraduateChild(enrollmentid);
 			test.log(Status.INFO, "Sending POST request to: " + Endpoints.baseURL +" "+Endpoints.child_Graduate);
 			test.log(Status.INFO, "Prepared request body: " + requestBody.toString());

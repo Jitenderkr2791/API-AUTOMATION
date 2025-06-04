@@ -2,7 +2,6 @@ package stepdefinition;
  
 import Utils.*;
 import io.cucumber.java.en.*;
-import org.json.JSONObject;
 import org.junit.Assert;
 import com.aventstack.extentreports.ExtentTest;
 import static org.hamcrest.Matchers.equalTo;
@@ -16,12 +15,9 @@ public class Post_Child_Information
 {
     public Response childres, Parentres, lastres;
     private String parentToken;
-    private String requestBody;
     private ExtentTest test = Extent_Report_Manager.getTest();
     private Map<String, String> headers= BaseMethods.getDefaultHeaders();
     private String endpoint;
-    private Map<String, Object> childInfo;
-
     Map<String, Object> parent;
     List<Map<String, Object>> parents;
     String childId;
@@ -31,13 +27,7 @@ public class Post_Child_Information
 	    @Given("I have a valid parent token")
 	    public String i_have_a_valid_parent_token()
 	    {
-	    	this.parentToken = ConfigReader.getProperty("ParentToken");
-	        if (this.parentToken == null || this.parentToken.trim().isEmpty()) 
-	        {
-	            BaseMethods.parentLogin();  
-	            ConfigReader.waitAndReloadConfig(3000);
-	            this.parentToken = ConfigReader.getProperty("ParentToken");
-	        }
+	    	this.parentToken = BaseMethods.getParentToken();
 	        test.info("Retrieved Parent Token: " + parentToken);
 	        test.info("Decoded JWT: " + BaseMethods.decodeJWT(parentToken));
 			return parentToken;

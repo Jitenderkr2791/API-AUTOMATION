@@ -249,6 +249,23 @@ public class Happy_Path_Flow
 				   }
 		 }
 	}
- //comment
+ 
+	@When("the New parent enrolls the child checking for waitlisted.")
+	public void the_new_parent_enrolls_the_child_checking_for_waitlisted() 
+	{
+		  ConfigReader.waitAndReloadConfig(3000);
+		  enroll_Regular_Dropin regular = new enroll_Regular_Dropin();
+		  String childrenToEnroll = ConfigReader.getProperty("Waitlisted_Enroll_Children");
+		    
+		    List<String> selectedChildKeys = Arrays.asList(childrenToEnroll.split(","));
+		    for (int i = 0; i < selectedChildKeys.size(); i++)
+		    {
+		    	String Today = LocalDate.now().toString();
+		        String childKey = selectedChildKeys.get(i).trim();
+		        System.out.println("📌 Enrolling child with key: " + childKey);
+		        regular.i_send_a_post_request_to_enroll_regular_child_api_with_valid_body(childKey, Today);
+		    }
+	}
+	
 }
 

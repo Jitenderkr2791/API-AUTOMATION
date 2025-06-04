@@ -2,39 +2,25 @@ package stepdefinition;
 import Utils.*;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
-import com.github.javafaker.Faker;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 import org.junit.Assert;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import static io.restassured.RestAssured.*;
 
 public class Post_Create_Classroom
 {
-    String ProviderToken;
     private Response res;
     private ExtentTest test = Extent_Report_Manager.getTest();
     Payload Pl = new Payload();
     private Map<String, String> headers= BaseMethods.getDefaultHeaders();
 
-    public Post_Create_Classroom()
-    {
-        this.ProviderToken = ConfigReader.getProperty("ProviderToken");
-        if (this.ProviderToken == null || this.ProviderToken.trim().isEmpty()) 
-        {
-            BaseMethods.providerLogin();  
-            ConfigReader.waitAndReloadConfig(3000);
-            this.ProviderToken = ConfigReader.getProperty("ProviderToken");
-        }
-        test.info("Decoded JWT: " + BaseMethods.decodeJWT(ProviderToken));
-    }
-
     @When("I send a POST request to create classroom at classroom endpoint")
     public void i_send_a_post_request_to_create_classroom_at_classroom_endpoint()
-    {   String payload = Pl.classroom_payload(); 
-    	
+    {   
+    	String ProviderToken = BaseMethods.getProviderToken();
+    	String payload = Pl.classroom_payload(); 
     	test.log(Status.INFO, "Sending POST request to: " + Endpoints.create_classroom);
          APIUtils.logRequestHeaders(test, headers);
          APIUtils.logRequestBody(test, payload.toString());

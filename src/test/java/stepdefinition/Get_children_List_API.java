@@ -4,7 +4,6 @@ import org.junit.Assert;
 import io.restassured.builder.ResponseBuilder;
 import Utils.APIUtils;
 import Utils.BaseMethods;
-import Utils.ConfigReader;
 import Utils.Extent_Report_Manager;
 import io.cucumber.java.en.*;
 import io.restassured.module.jsv.JsonSchemaValidator;
@@ -13,6 +12,7 @@ import static io.restassured.RestAssured.*;
 import com.aventstack.extentreports.ExtentTest;
 import Utils.Endpoints;
 import java.util.Map;
+
 public class Get_children_List_API
 {
 	private Response res ;
@@ -22,14 +22,7 @@ public class Get_children_List_API
 	@When("I send a GET request of children-with-enrollments API")
 	public void i_send_a_get_request_of_children_with_enrollments_api() 
 	{  
-		    String parentToken = ConfigReader.getProperty("ParentToken");
-	        if (parentToken == null || parentToken.trim().isEmpty()) 
-	        {
-	            BaseMethods.parentLogin();  
-	            parentToken = ConfigReader.getProperty("ParentToken");
-	        }
-	        APIUtils.logRequestHeaders(test, headers);
-
+		    String parentToken = BaseMethods.getParentToken();
 	        test.info("Sending GET request to: " + Endpoints.baseURL + Endpoints.GET_CHILDREN);
 	        test.info("Using Authorization token for parent.");
 	        

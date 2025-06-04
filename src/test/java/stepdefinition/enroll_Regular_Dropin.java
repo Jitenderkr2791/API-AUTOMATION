@@ -13,21 +13,11 @@ import static io.restassured.RestAssured.*;
 
 public class enroll_Regular_Dropin
 {
-    private String parentToken;
+    private String parentToken=BaseMethods.getParentToken();
     private Map<String, String> headers=BaseMethods.getDefaultHeaders();
     private Response response;
     private ExtentTest test = Extent_Report_Manager.getTest();
     Payload Pl = new Payload();
-
-    public enroll_Regular_Dropin() 
-    {
-        this.parentToken = ConfigReader.getProperty("ParentToken");
-        if (this.parentToken == null || this.parentToken.trim().isEmpty()) 
-        {
-            BaseMethods.parentLogin();  
-            this.parentToken = ConfigReader.getProperty("ParentToken");
-        }
-    }
 
     @When("I send a POST request to enroll-Dropin child {string} API with valid body")
     public void i_send_a_post_request_to_enroll_dropin_child_api_with_valid_body(String childIdKey)

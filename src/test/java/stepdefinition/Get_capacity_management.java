@@ -14,12 +14,7 @@ public class Get_capacity_management
     @When("I send a GET request to view classroom capacity at classroom endpoint with classroom Id")
     public void i_send_a_get_request_to_view_classroom_capacity_at_classroom_endpoint_with_classroom_id()
     {
-    	String providerToken = ConfigReader.getProperty("ProviderToken");
-        if (providerToken == null ||providerToken.trim().isEmpty()) 
-        {
-            BaseMethods.parentLogin();  
-            providerToken = ConfigReader.getProperty("ProviderToken");
-        }
+    	String providerToken = BaseMethods.getProviderToken();
         int classroomId = Integer.parseInt(ConfigReader.getProperty("classroomId"));
         res = given()
                 .baseUri(Endpoints.baseURL)
